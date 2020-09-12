@@ -1,0 +1,24 @@
+
+mvn clean package install -P buildDocker
+
+mvn clean package install -P buildDocker -s mvnsettings.xml
+
+mvn clean package install -P buildDocker -s mvnsettings.xml -gs mvnsettings-security.xml
+
+mvn clean package install -P buildDocker -s mvnsettings.xml -DskipTests -Dsettings.security=mvnsettings-security.xml
+
+mvn test -DskipTests
+
+mvn test
+
+
+
+wget --no-check-certificate -O dockerize.tar.gz https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
+
+https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
+
+https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz
+
+
+--> https://books.sonatype.com/mvnref-book/reference/running-sect-options.html
+--> https://maven.apache.org/guides/mini/guide-encryption.html

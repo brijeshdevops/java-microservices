@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-petclinic-config-server
+  labels:
+    app: petclinic-config-server
+
+spec:
+  template:
+    metadata:
+      name: pod-petclinic-config-server
+      labels:
+        app: petclinic-config-server
+    spec:
+      containers:
+        - name: petclinic-config-server
+          image: awscicd/spring-petclinic-config-server
+          ports:
+            - containerPort: 8888
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic-config-server

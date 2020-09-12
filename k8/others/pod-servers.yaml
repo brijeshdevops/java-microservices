@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-petclinic-servers
+  labels:
+    app: mng-servers
+
+spec:
+  containers:
+    - name: discovery-server
+      image: awscicd/spring-petclinic-discovery-server
+      command: ["./dockerize","-wait=tcp://config-server:8888","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+      ports:
+       - containerPort: 8761
+
+    - name: config-server
+      image: awscicd/spring-petclinic-config-server
+      ports:
+       - containerPort: 8888
+
+    - name: admin-server
+      image: awscicd/spring-petclinic-admin-server
+``    command: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+      ports:
+       - containerPort: 9090
+

@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-petclinic-simple-prod
+  labels:
+    app: petclinic-simple
+    version: 2.2.3.RELEASE
+spec:
+  template:
+    metadata:
+      name: pod-petclinic-simple
+      labels:
+        app: petclinic-simple
+        version: 2.2.3.RELEASE
+    spec:
+      containers:
+        - name: petclinic-simple
+          image: awscicd/spring-petclinic-docker:2.2.3.RELEASE
+          command: ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+          ports:
+            - containerPort: 8080
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic-simple
+      version: 2.2.3.RELEASE
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-simple-prod
+  labels:
+    app: petclinic-simple
+spec:
+  #type: NodePort
+  ports:
+    - name: "8080"
+      targetPort: 8080
+      port: 8080
+      #nodePort: 30761
+  selector:
+    app: petclinic-simple
+    version: 2.2.3.RELEASE
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-simple-release
+  labels:
+    app: petclinic-simple
+spec:
+  #type: NodePort
+  ports:
+    - name: "8080"
+      targetPort: 8080
+      port: 8080
+      #nodePort: 30761
+  selector:
+    app: petclinic-simple
+    version: 2.2.3.RELEASE
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-petclinic-simple-prod
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+     - host: petclinic.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: petclinic-simple-prod
+              servicePort: 8080
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-petclinic-simple-release
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+     - host: petclinicr.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: petclinic-simple-release
+              servicePort: 8080

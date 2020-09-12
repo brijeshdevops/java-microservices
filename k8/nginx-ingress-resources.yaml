@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-petclinic
+  annotations:
+    # use the shared ingress-nginx
+    kubernetes.io/ingress.class: "nginx"
+
+spec:
+  rules:
+     - host: registry.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: discovery-server
+              servicePort: 8761
+     - host: config.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: config-server
+              servicePort: 8888
+     - host: customers.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: customers-service
+              servicePort: 8081
+     - host: visits.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: visits-service
+              servicePort: 8082
+     - host: vets.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: vets-service
+              servicePort: 8083
+     - host: frontend.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: frontend
+              servicePort: 8080
+     - host: tracing.dcpgreendot.com
+       http:
+        paths:
+          - path: /
+            backend:
+              serviceName: tracing-server
+              servicePort: 9411

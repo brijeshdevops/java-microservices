@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-petclinic-discovery-server
+  labels:
+    app: petclinic-discovery-server
+
+spec:
+  template:
+    metadata:
+      name: pod-petclinic-discovery-server
+      labels:
+        app: petclinic-discovery-server
+    spec:
+      containers:
+        - name: petclinic-discovery-server
+          image: awscicd/spring-petclinic-discovery-server
+          command: ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Dspring.cloud.config.uri=http://petclinic-service-config-server:30888", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+          ports:
+            - containerPort: 8761
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic-discovery-server

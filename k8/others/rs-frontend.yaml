@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-petclinic-frontend
+  labels:
+    app: api-gateway
+
+spec:
+  template:
+    metadata:
+      name: pod-petclinic-frontend
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: awscicd/spring-petclinic-api-gateway
+          command: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-gateway

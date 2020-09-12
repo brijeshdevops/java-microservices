@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-petclinic-webservices
+  labels:
+    app: webservices
+
+spec:
+  template:
+    metadata:
+      name: pod-petclinic-webservices
+      labels:
+        app: webservices
+    spec:
+      containers:
+        - name: customers-service
+          image: awscicd/spring-petclinic-customers-service
+          command: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+        - name: visits-service
+          image: awscicd/spring-petclinic-visits-service
+          command: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+        - name: vets-service
+          image: awscicd/spring-petclinic-vets-service
+          command: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webservices

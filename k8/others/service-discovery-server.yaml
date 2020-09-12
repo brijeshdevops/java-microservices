@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service-discovery-server
+spec:
+  type: NodePort
+  ports:
+    - name: "8761"
+      targetPort: 8761
+      port: 8761
+      nodePort: 30761
+  selector:
+    app: petclinic-discovery-server

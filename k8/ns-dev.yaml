@@ -1,0 +1,5 @@
+# kubectl config set-context $(kubectl config current-context) --namespace=petclinic-dev
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: petclinic-dev

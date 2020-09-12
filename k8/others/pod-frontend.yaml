@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-petclinic-frontend
+  labels:
+    app: api-gateway
+
+spec:
+  containers:
+    - name: api-gateway
+      image: awscicd/spring-petclinic-api-gateway
+      envFrom:
+        - configMapRef:
+            name: app-config
+      command: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+      ports:
+       - containerPort: 8080
+
+

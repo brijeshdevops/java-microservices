@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service-webservices
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 7081
+      port: 7081
+      nodePort: 30781
+    - targetPort: 7082
+      port: 7082
+      nodePort: 30782
+    - targetPort: 7083
+      port: 7083
+      nodePort: 30783
+  selector:
+    app: webservices
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service-servers
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 8761
+      port: 8761
+      nodePort: 30761
+    - targetPort: 8888
+      port: 8888
+      nodePort: 30888
+    - targetPort: 9090
+      port: 9090
+      nodePort: 30090
+  selector:
+    app: mng-servers
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service-servers
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 8080
+      port: 8080
+      nodePort: 30080
+  selector:
+    app: api-gateway

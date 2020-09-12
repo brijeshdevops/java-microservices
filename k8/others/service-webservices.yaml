@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic-service-webservices
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 7081
+      port: 7081
+      nodePort: 30781
+    - targetPort: 7082
+      port: 7082
+      nodePort: 30782
+    - targetPort: 7083
+      port: 7083
+      nodePort: 30783
+  selector:
+    app: webservices

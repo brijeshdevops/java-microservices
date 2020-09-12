@@ -1,0 +1,22 @@
+server.port: 8761
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+  application:
+    name: discovery-server
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+---
+spring:
+  profiles: docker
+  cloud:
+    config:
+      uri: http://config-server:8888
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
