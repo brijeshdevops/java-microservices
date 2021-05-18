@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   stages {
-
+  
     stage('Pull Java Microservice code') {
 
       steps{
@@ -13,7 +13,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/java-microservices.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/java-microservices.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -32,6 +32,24 @@ pipeline {
        }
     }
 
+    stage('Continuous Code Quality using Sonarqube')
+    {
+       steps{
+                withSonarQubeEnv( 'SonarQube8x' )  //( credentialsId: 'sonarpass', installationName: 'SonarQube8x')
+                {
+                    sh "mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=admin -Dsonar.host.url=http://sonar.devtesting.com"
+                }
+       }
+    }
+
+    stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+    }
+
     stage('Code Build') {
 
       steps{
@@ -46,8 +64,6 @@ pipeline {
        }
     }
 
-
-
     stage('Pull Terraform AWS Infrastructure code for EKS Cluster') {
 
       steps{
@@ -57,7 +73,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/terraform-eks-cluster.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/terraform-eks-cluster.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -74,7 +90,7 @@ pipeline {
     stage('Terraform Apply') {
 
       steps{
-		       sh "terraform destroy --auto-approve"
+		       sh "terraform apply --auto-approve"
        }
     }
 
@@ -87,7 +103,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/terrform-k8-core.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/terrform-k8-core.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -117,7 +133,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/terrform-k8-java-ms.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/terrform-k8-java-ms.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -137,6 +153,7 @@ pipeline {
 		       sh "terraform apply --auto-approve"
        }
     }
+
 
 
   }
