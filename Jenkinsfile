@@ -13,7 +13,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/java-microservices.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/java-microservices.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -73,7 +73,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/terraform-eks-cluster.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/terraform-eks-cluster.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -103,7 +103,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/terrform-k8-core.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/terrform-k8-core.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
@@ -133,7 +133,7 @@ pipeline {
 	            doGenerateSubmoduleConfigurations: false,
 	            extensions: [ [$class: 'CleanCheckout'] ],
 	            submoduleCfg: [],
-	            userRemoteConfigs: [[ url: 'https://github.com/devopstraining143/terrform-k8-java-ms.git', credentialsId: 'github-devops' ]]
+	            userRemoteConfigs: [[ url: 'https://github.com/brijeshdevops/terrform-k8-java-ms.git', credentialsId: 'github-devops' ]]
 	        ])
        }
     }
